@@ -1,11 +1,28 @@
 import { Head } from '@inertiajs/react';
 import { useState } from 'react';
 
+interface Stats {
+    hp: number;
+    attack: number;
+    defense: number;
+    "special-attack": number;
+    "special-defense": number;
+    speed: number;
+}
+
+interface PokemonType {
+    name: string;
+    id: number;
+    image: string;
+}
+
 interface Pokemon {
     id: number;
     name: string;
     sprite: string;
-    types: string[];
+    base_experience: number;
+    stats: Stats;
+    types: PokemonType[];
 }
 
 export default function Welcome() {
@@ -64,7 +81,7 @@ export default function Welcome() {
                         <button
                             onClick={searchPokemon}
                             disabled={loading}
-                            className="px-6 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 disabled:opacity-50"
+                            className="px-6 py-2 bg-[#3761a8] text-white rounded-lg hover:bg-blue-700 disabled:opacity-50"
                         >
                             {loading ? 'Buscando...' : 'Buscar'}
                         </button>
@@ -77,23 +94,39 @@ export default function Welcome() {
                     )}
 
                     {pokemon && (
-                        <div className="p-6 bg-white border rounded-lg shadow-lg text-center">
+                        <div className="p-6 bg-white border-8 border-[#3761a8] rounded-lg shadow-lg text-center">
+                            <div className="flex justify-between items-center px-3 py-2 text-sm font-bold">
+                               <p className="mb-2">ID: {pokemon.id}</p> 
+                                <h2 className="text-2xl font-bold capitalize mb-2">{pokemon.name}</h2>
+                                <p className="mb-2">PS {pokemon.stats.hp}</p> 
+                            </div>
+
                             <img
                                 src={pokemon.sprite}
                                 alt={pokemon.name}
-                                className="w-32 h-32 mx-auto mb-4"
+                                className="mx-auto mb-4"
                             />
-                            <h2 className="text-2xl font-bold capitalize mb-2">{pokemon.name}</h2>
-                            <p className="text-gray-600 mb-2">ID: {pokemon.id}</p>
                             <div className="flex justify-center gap-2">
                                 {pokemon.types.map((type) => (
-                                    <span
-                                        key={type}
-                                        className="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-sm capitalize"
-                                    >
-                                        {type}
-                                    </span>
+                                    <img
+                                        key={type.name}
+                                        src={type.image}
+                                        alt={type.name}
+                                        className="h-8 w-auto"
+                                        title={type.name}
+                                    />
                                 ))}
+                            </div>
+
+                            <div className="text-left">
+                                <h3 className="font-bold mb-2">Stats:</h3>
+                                <div className="grid grid-cols-2 gap-2 text-xs font-semibold">
+                                    <p>Ataque: {pokemon.stats.attack}</p>
+                                    <p>Defensa: {pokemon.stats.defense}</p>
+                                    <p>Ataque Especial: {pokemon.stats["special-attack"]}</p>
+                                    <p>Defensa Especial: {pokemon.stats["special-defense"]}</p>
+                                    <p>Velocidad: {pokemon.stats.speed}</p>
+                                </div>
                             </div>
                         </div>
                     )}
