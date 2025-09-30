@@ -44,16 +44,21 @@ export default function Welcome() {
                 <link href="https://fonts.bunny.net/css?family=instrument-sans:400,500,600" rel="stylesheet" />
             </Head>
             <div className="flex min-h-screen flex-col items-center p-6 text-[#1b1b18] lg:justify-center lg:p-8">
-                <div className="w-full max-w-md space-y-6">
-                    <h1 className="text-3xl font-bold text-center">Buscador Pokémon</h1>
-                    
+                <div className="">
+                    <img
+                        src={"https://raw.githubusercontent.com/PokeAPI/media/master/logo/pokeapi_256.png"}
+                        alt={"PokéAPI"}
+                        className="mx-auto mb-4"
+                    />
+                </div>
+                <div className="w-full max-w-md space-y-6">                    
                     <div className="flex gap-2">
                         <input
                             type="text"
                             value={search}
                             onChange={(e) => setSearch(e.target.value)}
                             onKeyPress={(e) => e.key === 'Enter' && searchPokemon()}
-                            placeholder="Nombre del Pokémon"
+                            placeholder="Buscador Pokémon"
                             className="flex-1 px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                         />
                         <button
