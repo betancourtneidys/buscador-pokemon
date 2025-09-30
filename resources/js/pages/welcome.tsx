@@ -136,11 +136,17 @@ export default function Welcome() {
                                         </div>
 
                                         {/* Imagen oficial del Pokémon */}
-                                        <img
-                                            src={pokemon.sprite}
-                                            alt={pokemon.name}
-                                            className="w-32 h-32 mx-auto mb-4"
-                                        />
+                                        {pokemon.sprite ? (
+                                            <img
+                                                src={pokemon.sprite}
+                                                alt={pokemon.name}
+                                                className="w-32 h-32 mx-auto mb-4"
+                                            />
+                                        ) : (
+                                            <div className="w-32 h-32 mx-auto mb-4 bg-gray-300 rounded-lg flex items-center justify-center">
+                                                <span className="text-gray-600 text-xs">Sin imagen</span>
+                                            </div>
+                                        )}
                                         
                                         {/* Tipos del Pokémon con imágenes */}
                                         <div className="flex justify-center gap-2 mb-4">
