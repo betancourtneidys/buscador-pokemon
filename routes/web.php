@@ -9,3 +9,4 @@ Route::get('/', function () {
 })->name('home');
 
 Route::get('/api/pokemon/{name}', [PokemonController::class, 'show']);
+Route::get('/api/search', [PokemonController::class, 'search']);
