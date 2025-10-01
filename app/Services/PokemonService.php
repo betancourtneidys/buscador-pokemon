@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Models\Pokemon;
 use Illuminate\Support\Facades\Http;
 
 class PokemonService
@@ -23,7 +24,8 @@ class PokemonService
         // Obtener detalles de cada Pokémon encontrado
         $results = [];
         foreach ($filtered as $pokemon) {
-            $results[] = $this->getPokemonData($pokemon['url']);
+            $pokemonData = $this->getPokemonData($pokemon['url']);
+            $results[] = Pokemon::fromApiData($pokemonData);
         }
 
         return [
@@ -32,9 +34,10 @@ class PokemonService
         ];
     }
 
-    public function getPokemonDetails(string $name): array
+    public function getPokemonDetails(string $name): Pokemon
     {
-        return $this->getPokemonData(self::BASE_URL . "/pokemon/{$name}");
+        $data = $this->getPokemonData(self::BASE_URL . "/pokemon/{$name}");
+        return Pokemon::fromApiData($data);
     }
 
     private function getAllPokemon(): array

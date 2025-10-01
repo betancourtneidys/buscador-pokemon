@@ -26,7 +26,6 @@ interface SearchResponse {
 }
 
 export function usePokemonSearch() {
-    const [searchResults, setSearchResults] = useState<Pokemon[]>([]);
     const [searchData, setSearchData] = useState<SearchResponse | null>(null);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
@@ -47,7 +46,6 @@ export function usePokemonSearch() {
             const data = await response.json();
             
             if (response.ok) {
-                setSearchResults(data.results);
                 setSearchData(data);
                 setShowResults(true);
             } else {
@@ -61,7 +59,6 @@ export function usePokemonSearch() {
     };
 
     return {
-        searchResults,
         searchData,
         loading,
         error,

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\PokemonSearchRequest;
 use App\Services\PokemonService;
 use Illuminate\Http\Request;
 
@@ -11,17 +12,10 @@ class PokemonController extends Controller
         private PokemonService $pokemonService
     ) {}
 
-    public function search(Request $request)
+    public function search(PokemonSearchRequest $request)
     {
-        $query = $request->get('q', '');
-        
-        // Validación simple
-        if (!$query || (strlen($query) < 2 && !is_numeric($query))) {
-            return response()->json(['error' => 'Mínimo 2 caracteres o un número'], 400);
-        }
-
         try {
-            $result = $this->pokemonService->searchPokemon($query);
+            $result = $this->pokemonService->searchPokemon($request->getQuery());
             return response()->json($result);
             
         } catch (\Exception $e) {
