@@ -34,6 +34,8 @@ export function usePokemonSearch() {
     const searchPokemon = async (query: string) => {
         if (!query.trim() || (query.length < 2 && !Number.isInteger(Number(query)))) {
             setError('Mínimo 2 caracteres o un número');
+            setSearchData(null);
+            setShowResults(false);
             return;
         }
         

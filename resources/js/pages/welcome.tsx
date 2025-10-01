@@ -20,7 +20,7 @@ export default function Welcome() {
                 <link href="https://fonts.bunny.net/css?family=instrument-sans:400,500,600" rel="stylesheet" />
             </Head>
             
-            <div className="bg-[url(/img/7027.jpg)] bg-cover bg-center flex min-h-screen flex-col items-center p-4 sm:p-6 text-white lg:justify-center lg:p-8">
+            <div className="bg-[url(/img/7027.jpg)] bg-cover bg-center bg-fixed flex min-h-screen flex-col items-center p-4 sm:p-6 text-white lg:justify-center lg:p-8">
                 <div className="mb-6 lg:mb-8">
                     <img
                         src={"https://raw.githubusercontent.com/PokeAPI/media/master/logo/pokeapi_256.png"}
