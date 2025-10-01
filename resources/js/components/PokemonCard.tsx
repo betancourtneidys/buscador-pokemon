@@ -23,11 +23,11 @@ interface PokemonCardProps {
 
 export function PokemonCard({ pokemon }: PokemonCardProps) {
     return (
-        <div className="p-6 bg-[#05182fc4] border-4 border-[#3761a8] rounded-lg shadow-lg text-center">
+        <div className="p-4 sm:p-6 bg-[#05182fc4] border-4 border-[#3761a8] rounded-lg shadow-lg text-center">
             {/* Cabecera con ID, nombre y PS */}
-            <div className="flex justify-between items-center mb-4 text-sm font-bold">
+            <div className="flex justify-between items-center mb-3 sm:mb-4 text-xs sm:text-sm font-bold">
                 <p>ID: {pokemon.id}</p>
-                <h2 className="text-xl font-bold capitalize">{pokemon.name}</h2>
+                <h2 className="text-lg sm:text-xl font-bold capitalize px-2">{pokemon.name}</h2>
                 <p>PS {pokemon.stats.hp}</p>
             </div>
 
@@ -36,10 +36,10 @@ export function PokemonCard({ pokemon }: PokemonCardProps) {
                 <img
                     src={pokemon.sprite}
                     alt={pokemon.name}
-                    className="w-32 h-32 mx-auto mb-4"
+                    className="w-24 h-24 sm:w-32 sm:h-32 mx-auto mb-3 sm:mb-4"
                 />
             ) : (
-                <div className="w-32 h-32 mx-auto mb-4 bg-gray-300 rounded-lg flex items-center justify-center">
+                <div className="w-24 h-24 sm:w-32 sm:h-32 mx-auto mb-3 sm:mb-4 bg-gray-300 rounded-lg flex items-center justify-center">
                     <span className="text-gray-600 text-xs">Sin imagen</span>
                 </div>
             )}
@@ -59,8 +59,8 @@ export function PokemonCard({ pokemon }: PokemonCardProps) {
 
             {/* Estadísticas */}
             <div className="text-left">
-                <h4 className="font-bold mb-2 text-center">Stats:</h4>
-                <div className="grid grid-cols-2 gap-1 text-xs font-semibold">
+                <h4 className="font-bold mb-2 text-center text-sm sm:text-base">Stats:</h4>
+                <div className="grid grid-cols-2 gap-1 text-xs sm:text-sm font-semibold">
                     <p>Ataque: {pokemon.stats.attack}</p>
                     <p>Defensa: {pokemon.stats.defense}</p>
                     <p>At. Esp: {pokemon.stats["special-attack"]}</p>

@@ -20,24 +20,24 @@ export default function Welcome() {
                 <link href="https://fonts.bunny.net/css?family=instrument-sans:400,500,600" rel="stylesheet" />
             </Head>
             
-            <div className="bg-[url(/img/7027.jpg)] flex min-h-screen flex-col items-center p-6 text-white lg:justify-center lg:p-8">
-                <div className="">
+            <div className="bg-[url(/img/7027.jpg)] bg-cover bg-center flex min-h-screen flex-col items-center p-4 sm:p-6 text-white lg:justify-center lg:p-8">
+                <div className="mb-6 lg:mb-8">
                     <img
                         src={"https://raw.githubusercontent.com/PokeAPI/media/master/logo/pokeapi_256.png"}
                         alt={"PokéAPI"}
-                        className="mx-auto mb-4"
+                        className="mx-auto w-32 sm:w-48 md:w-64 h-auto"
                     />
                 </div>
                 
-                <div className="w-full max-w-6xl space-y-6">                    
+                <div className="w-full max-w-7xl space-y-4 sm:space-y-6">                    
                     <SearchBar onSearch={searchPokemon} loading={loading} />
 
                     {error && <ErrorMessage message={error} />}
 
                     {showResults && searchData && searchData.results.length > 0 && (
                         <div className="space-y-4">
-                            <h3 className="font-bold text-center text-xl mb-6">Resultados ({searchData.total}):</h3>
-                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                            <h3 className="font-bold text-center text-lg sm:text-xl mb-4 sm:mb-6">Resultados ({searchData.total}):</h3>
+                            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6">
                                 {searchData.results.map((pokemon) => (
                                     <PokemonCard key={pokemon.id} pokemon={pokemon} />
                                 ))}
@@ -46,8 +46,8 @@ export default function Welcome() {
                     )}
 
                     {showResults && searchData && searchData.results.length === 0 && (
-                        <div className="p-6 bg-[#05182fc4] border-2 border-[#3761a8] rounded-lg text-center">
-                            <p className="text-lg">No se encontraron Pokémon con ese nombre o ID</p>
+                        <div className="p-4 sm:p-6 bg-[#05182fc4] border-2 border-[#3761a8] rounded-lg text-center">
+                            <p className="text-base sm:text-lg">No se encontraron Pokémon con ese nombre o ID</p>
                         </div>
                     )}
                 </div>
