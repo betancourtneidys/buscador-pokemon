@@ -20,21 +20,24 @@ interface Pokemon {
     }>;
 }
 
-interface SearchResponse {
-    results: Pokemon[];
-    total: number;
-}
-
 export function usePokemonSearch() {
-    const [searchData, setSearchData] = useState<SearchResponse | null>(null);
+    const [displayedResults, setDisplayedResults] = useState<Pokemon[]>([]);
+    const [totalResults, setTotalResults] = useState(0);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [hasMorePages, setHasMorePages] = useState(false);
     const [loading, setLoading] = useState(false);
+    const [loadingMore, setLoadingMore] = useState(false);
     const [error, setError] = useState('');
     const [showResults, setShowResults] = useState(false);
+    const [lastQuery, setLastQuery] = useState('');
+    
+    const RESULTS_PER_PAGE = 12;
 
     const searchPokemon = async (query: string) => {
         if (!query.trim() || (query.length < 2 && !Number.isInteger(Number(query)))) {
             setError('Mínimo 2 caracteres o un número');
-            setSearchData(null);
+            setDisplayedResults([]);
+            setTotalResults(0);
             setShowResults(false);
             return;
         }
@@ -42,13 +45,20 @@ export function usePokemonSearch() {
         setLoading(true);
         setError('');
         setShowResults(false);
+        setDisplayedResults([]);
+        setTotalResults(0);
+        setCurrentPage(1);
+        setHasMorePages(false);
+        setLastQuery(query);
         
         try {
-            const response = await fetch(`/api/search?q=${encodeURIComponent(query)}`);
+            const response = await fetch(`/api/search?q=${encodeURIComponent(query)}&page=1`);
             const data = await response.json();
             
             if (response.ok) {
-                setSearchData(data);
+                setDisplayedResults(data.results);
+                setTotalResults(data.total);
+                setHasMorePages(data.has_more);
                 setShowResults(true);
             } else {
                 setError(data.error || 'Error al buscar Pokémon');
@@ -60,11 +70,38 @@ export function usePokemonSearch() {
         }
     };
 
+    const loadMore = async () => {
+        if (!hasMorePages || loadingMore) return;
+        
+        setLoadingMore(true);
+        
+        try {
+            const response = await fetch(`/api/search?q=${encodeURIComponent(lastQuery)}&page=${currentPage + 1}`);
+            const data = await response.json();
+            
+            if (response.ok) {
+                setDisplayedResults(prev => [...prev, ...data.results]);
+                setCurrentPage(currentPage + 1);
+                setHasMorePages(data.has_more);
+            }
+        } catch (err) {
+            setError('Error cargando más resultados');
+        } finally {
+            setLoadingMore(false);
+        }
+    };
+    
+    const hasMore = hasMorePages;
+
     return {
-        searchData,
+        displayedResults,
+        totalResults,
         loading,
+        loadingMore,
         error,
         showResults,
-        searchPokemon
+        hasMore,
+        searchPokemon,
+        loadMore
     };
 }

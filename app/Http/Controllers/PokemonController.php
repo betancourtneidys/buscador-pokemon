@@ -15,7 +15,9 @@ class PokemonController extends Controller
     public function search(PokemonSearchRequest $request)
     {
         try {
-            $result = $this->pokemonService->searchPokemon($request->getQuery());
+            $page = $request->get('page', 1);
+            $perPage = $request->get('per_page', 12);
+            $result = $this->pokemonService->searchPokemon($request->getQuery(), $page, $perPage);
             return response()->json($result);
             
         } catch (\Exception $e) {

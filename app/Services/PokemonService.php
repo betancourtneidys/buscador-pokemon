@@ -9,7 +9,7 @@ class PokemonService
 {
     private const BASE_URL = 'https://pokeapi.co/api/v2';
 
-    public function searchPokemon(string $query): array
+    public function searchPokemon(string $query, int $page = 1, int $perPage = 12): array
     {
         // Obtener todos los Pokémon
         $allPokemon = $this->getAllPokemon();
@@ -21,16 +21,23 @@ class PokemonService
                    (is_numeric($query) && $pokemonId == $query);
         });
 
-        // Obtener detalles de cada Pokémon encontrado
+        $total = count($filtered);
+        $offset = ($page - 1) * $perPage;
+        $paginatedPokemon = array_slice($filtered, $offset, $perPage);
+
+        // Obtener detalles solo de la página actual
         $results = [];
-        foreach ($filtered as $pokemon) {
+        foreach ($paginatedPokemon as $pokemon) {
             $pokemonData = $this->getPokemonData($pokemon['url']);
             $results[] = Pokemon::fromApiData($pokemonData);
         }
 
         return [
             'results' => $results,
-            'total' => count($results)
+            'total' => $total,
+            'current_page' => $page,
+            'per_page' => $perPage,
+            'has_more' => ($offset + count($results)) < $total
         ];
     }
 

@@ -6,11 +6,15 @@ import { ErrorMessage } from '../components/ErrorMessage';
 
 export default function Welcome() {
     const {
-        searchData,
+        displayedResults,
+        totalResults,
         loading,
+        loadingMore,
         error,
         showResults,
-        searchPokemon
+        hasMore,
+        searchPokemon,
+        loadMore
     } = usePokemonSearch();
 
     return (
@@ -34,18 +38,29 @@ export default function Welcome() {
 
                     {error && <ErrorMessage message={error} />}
 
-                    {showResults && searchData && searchData.results.length > 0 && (
+                    {showResults && displayedResults.length > 0 && (
                         <div className="space-y-4">
-                            <h3 className="font-bold text-center text-lg sm:text-xl mb-4 sm:mb-6">Resultados ({searchData.total}):</h3>
+                            <h3 className="font-bold text-center text-lg sm:text-xl mb-4 sm:mb-6">Mostrando {displayedResults.length} de {totalResults} resultados:</h3>
                             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6">
-                                {searchData.results.map((pokemon) => (
+                                {displayedResults.map((pokemon) => (
                                     <PokemonCard key={pokemon.id} pokemon={pokemon} />
                                 ))}
                             </div>
+                            {hasMore && (
+                                <div className="text-center mt-6">
+                                    <button
+                                        onClick={loadMore}
+                                        disabled={loadingMore}
+                                        className="px-6 py-3 bg-[#3761a8] rounded-lg hover:bg-blue-700 disabled:opacity-50 font-semibold transition-colors"
+                                    >
+                                        {loadingMore ? 'Cargando...' : 'Ver más'}
+                                    </button>
+                                </div>
+                            )}
                         </div>
                     )}
 
-                    {showResults && searchData && searchData.results.length === 0 && (
+                    {showResults && displayedResults.length === 0 && (
                         <div className="p-4 sm:p-6 bg-[#05182fc4] border-2 border-[#3761a8] rounded-lg text-center">
                             <p className="text-base sm:text-lg">No se encontraron Pokémon con ese nombre o ID</p>
                         </div>
